@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>担当者査定フォーム | 株式会社杏栄</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue-dark:#0a3058;
+  --blue-main:#1a5fa8;
+  --blue-mid:#2176c7;
+  --blue-light:#e8f2fd;
+  --blue-pale:#f0f6ff;
+  --text-dark:#0d1f3c;
+  --text-mid:#2a4a7f;
+  --text-sub:#5577aa;
+  --border:#c5d8ee;
+  --white:#ffffff;
+  --shadow:0 4px 24px rgba(10,48,88,0.10);
+}
+body{
+  font-family:'Noto Sans JP',sans-serif;
+  background:linear-gradient(160deg,#deeafa 0%,#eef4fd 40%,#f5f9ff 100%);
+  min-height:100vh;
+  color:var(--text-dark);
+}
+
+/* ── Header ── */
+.header{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0.75rem 1.25rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px rgba(10,48,88,0.08);
+}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo-img{height:30px;width:auto;}
+.logo-name{font-size:16px;font-weight:700;color:var(--blue-dark);}
+.header-badge{
+  background:var(--blue-main);
+  color:var(--white);
+  font-size:10px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:20px;
+  letter-spacing:0.06em;
+}
+
+/* ── Hero strip ── */
+.hero-strip{
+  background:linear-gradient(135deg,var(--blue-dark) 0%,var(--blue-main) 60%,var(--blue-mid) 100%);
+  padding:1.4rem 1.25rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.hero-strip::before{
+  content:'';position:absolute;
+  top:-40px;right:-40px;
+  width:180px;height:180px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.05);
+}
+.hero-strip h1{
+  font-size:18px;font-weight:900;
+  color:var(--white);line-height:1.4;
+  margin-bottom:6px;
+  position:relative;z-index:1;
+}
+.hero-strip h1 span{color:#7dd3fc;}
+.hero-sub{
+  font-size:12px;color:rgba(255,255,255,0.8);
+  position:relative;z-index:1;
+}
+
+/* ── Progress ── */
+.progress-wrap{padding:1.2rem 1.25rem 0;}
+.progress-label{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--text-sub);
+  margin-bottom:6px;font-weight:500;
+}
+.progress-bar{
+  height:4px;background:#dce8f5;
+  border-radius:4px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;width:60%;
+  background:linear-gradient(90deg,var(--blue-main),var(--blue-mid));
+  border-radius:4px;
+  transition:width 0.4s ease;
+}
+
+/* ── Main card ── */
+.main{padding:1rem 1.25rem 2rem;}
+.card{
+  background:var(--white);
+  border-radius:16px;
+  padding:1.5rem 1.25rem;
+  margin-bottom:12px;
+  box-shadow:var(--shadow);
+  border:1px solid rgba(197,216,238,0.4);
+}
+.card-title{
+  font-size:13px;font-weight:700;
+  color:var(--blue-main);
+  letter-spacing:0.06em;
+  margin-bottom:1rem;
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:10px;
+  border-bottom:1.5px solid var(--blue-light);
+}
+.card-title-icon{
+  width:28px;height:28px;
+  background:var(--blue-light);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.card-title-icon svg{width:15px;height:15px;}
+
+/* ── Form elements ── */
+.field{margin-bottom:1.1rem;}
+.field:last-child{margin-bottom:0;}
+.field-label{
+  font-size:12px;font-weight:700;
+  color:var(--text-mid);
+  margin-bottom:6px;
+  display:flex;align-items:center;gap:5px;
+}
+.required{
+  font-size:10px;font-weight:700;
+  background:#e53e3e;color:#fff;
+  padding:1px 5px;border-radius:3px;
+}
+
+/* Radio group */
+.radio-group{display:flex;flex-wrap:wrap;gap:8px;}
+.radio-option{
+  flex:1;min-width:80px;
+  position:relative;
+}
+.radio-option input{
+  position:absolute;opacity:0;width:0;height:0;
+}
+.radio-label{
+  display:flex;align-items:center;justify-content:center;
+  padding:9px 6px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-size:12px;font-weight:700;
+  color:var(--text-mid);
+  cursor:pointer;
+  transition:all 0.18s;
+  background:var(--blue-pale);
+  text-align:center;
+}
+.radio-option input:checked + .radio-label{
+  background:var(--blue-main);
+  border-color:var(--blue-main);
+  color:var(--white);
+  box-shadow:0 3px 10px rgba(26,95,168,0.28);
+}
+
+/* Unit toggle */
+.unit-toggle{display:flex;gap:6px;}
+.unit-btn{
+  flex:1;padding:8px;
+  border:1.5px solid var(--border);
+  border-radius:8px;
+  background:var(--blue-pale);
+  font-size:12px;font-weight:700;
+  color:var(--text-mid);
+  cursor:pointer;
+  text-align:center;
+  transition:all 0.18s;
+}
+.unit-btn.active{
+  background:var(--blue-main);
+  border-color:var(--blue-main);
+  color:var(--white);
+}
+
+/* Number input */
+.number-wrap{
+  display:flex;align-items:center;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  overflow:hidden;
+  background:var(--white);
+}
+.num-btn{
+  width:44px;height:44px;
+  background:var(--blue-pale);
+  border:none;
+  font-size:20px;font-weight:500;
+  color:var(--blue-main);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background 0.15s;
+}
+.num-btn:hover{background:var(--blue-light);}
+.num-input{
+  flex:1;height:44px;
+  border:none;outline:none;
+  text-align:center;
+  font-size:16px;font-weight:700;
+  color:var(--text-dark);
+  font-family:'Montserrat',sans-serif;
+  background:transparent;
+}
+.num-unit{
+  font-size:11px;color:var(--text-sub);
+  padding-right:12px;font-weight:500;
+}
+
+/* Text input */
+.text-input{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--border);
+  border-radius:10px;
+  font-size:14px;
+  color:var(--text-dark);
+  background:var(--white);
+  outline:none;
+  font-family:'Noto Sans JP',sans-serif;
+  transition:border-color 0.18s,box-shadow 0.18s;
+}
+.text-input:focus{
+  border-color:var(--blue-main);
+  box-shadow:0 0 0 3px rgba(26,95,168,0.12);
+}
+.text-input::placeholder{color:#a0b4cc;}
+
+/* Address row */
+.addr-row{display:flex;gap:8px;}
+.addr-row .text-input{flex:1;}
+.map-btn{
+  width:56px;height:48px;
+  background:var(--blue-main);
+  border:none;border-radius:10px;
+  color:var(--white);
+  cursor:pointer;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:2px;flex-shrink:0;
+  font-size:8px;font-weight:700;
+  transition:opacity 0.15s;
+}
+.map-btn:hover{opacity:0.88;}
+.map-btn svg{width:18px;height:18px;}
+
+/* Info box */
+.info-box{
+  background:var(--blue-pale);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:12px;
+  color:var(--text-mid);
+  display:flex;align-items:flex-start;gap:8px;
+  line-height:1.6;
+}
+.info-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+
+/* Divider */
+.divider{
+  height:1px;background:var(--blue-light);
+  margin:1.2rem 0;
+}
+
+/* Checkbox */
+.check-wrap{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:12px 14px;
+  background:var(--blue-pale);
+  border-radius:10px;
+  border:1.5px solid var(--border);
+  cursor:pointer;
+}
+.check-wrap input{
+  width:18px;height:18px;
+  accent-color:var(--blue-main);
+  flex-shrink:0;
+  margin-top:1px;
+  cursor:pointer;
+}
+.check-text{
+  font-size:12px;color:var(--text-mid);
+  line-height:1.7;
+}
+.check-text a{color:var(--blue-main);font-weight:700;}
+
+/* Submit button */
+.submit-section{padding:0 1.25rem 2rem;}
+.submit-btn{
+  width:100%;padding:16px;
+  background:linear-gradient(135deg,var(--blue-main) 0%,var(--blue-mid) 100%);
+  color:var(--white);
+  font-size:16px;font-weight:700;
+  border:none;border-radius:50px;
+  cursor:pointer;
+  letter-spacing:0.04em;
+  box-shadow:0 6px 20px rgba(26,95,168,0.38);
+  transition:opacity 0.15s,transform 0.15s;
+  font-family:'Noto Sans JP',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.submit-btn:hover{opacity:0.9;transform:translateY(-1px);}
+.submit-btn svg{width:20px;height:20px;}
+.submit-note{
+  text-align:center;
+  font-size:11px;color:var(--text-sub);
+  margin-top:10px;
+}
+
+/* Trust badges */
+.trust-row{
+  display:flex;justify-content:center;gap:16px;
+  padding:0 1.25rem 1.5rem;
+}
+.trust-item{
+  display:flex;align-items:center;gap:5px;
+  font-size:11px;font-weight:700;color:var(--text-mid);
+}
+.trust-item svg{width:14px;height:14px;color:var(--blue-main);}
+
+/* Streamlit target URL - hidden form */
+.hidden{display:none;}
+
+/* Age section */
+.age-note{
+  font-size:11px;color:var(--text-sub);
+  margin-top:5px;line-height:1.5;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAgCAYAAABdP1tmAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAAKbklEQVR42r2ZaXSU1RnHf/fed96ZyWSSDEkwCwGECpEgLhH1gyvKKVrECqitnurpKcbTuh0/WBewguByLLWf9NjNhbbHc7RqQa1Yt4prJSzBhUaWUAMESEgyJJnMvMu9/fDOTDIssXqM95w5We6T972/+zzP/3nujdjS3mPWbesmZEmMMQAIwNeGkojFj84YhxDwzMd7ODTooSQEVsGQQuC7PnXlUX5wcg2+1igp+fvGPexJZggpkbfPPbc0GuKqmeNQUvBtD2vtZ/v45RNboCgMWSAEkNHU1kb58ZnjODjg8LOnNpHp16AIiESeCPodHr/xNLQBJSUrX/uC2//6GQgxZGcACTiaqqoiFjTWoKQqeNS3AmRbChW1kdEQvg6AlAAtfKrKokgh6ehN4/kCFQsVeEdJ0IMejadUsuic45ECHl67jTv+8ikqZoMQh3kTjNLEozajNSxjgjBAG3QWSEiB72litgTgy+4UfsZFRcN5m8CRgd3iS05ASZmF+QQVC6MxGG0KXialwGhIprxRA5LHnDFQGg0D0NY1CF5haCgp8FMuZ59UzrxTaln5z5xnsjDDWARgKYnn+OiMw5yGROBdY/i2s8g62i9FDigS8O7oHDgi0oMFGx67Zga/f3cXtz+9BVUcOQJGSYGvwetLc0JtMfcvPJUrZo4LYMQohBwjEJXFAg/t6hos8KWSAr/P4dqLxtO8q5cbHt94BIwQIKXET7lYIcGtcyex5LITKYuG0cYghRydHBrJQ+WxEADt3SmQMp/g2tOUJmyUEix68hNkkV0AYymJ5/r4A2nOmz6Gh6+czhmTKiAr26Mh1yMC5cKpvDgA6khmQA3VKSMELvDUe7sxQiCkwBiDlAIMeH0ZxpaHuffqE/nFrMmAwNcGKcSowhw75LJ+qiy26cu4dPV7oMRQbghIZQwIhZAajMFSAm/QB+1x7XnjWLGwgbpEDF9rIIAZnjP5Ii6CzTDGIIRAZI2Gz+eG1hopZYF97uvIHgIQhoriMLt7UrhpDxEO5V8yPC6lkPgGvEMOMybF+c01J3NRfeWw8JJHiYChReQWORxkOFih7Ms8ZG7+cLtjh5wUJIrtQBA8jYyAbwqLpBACP+UQK7K446p6br/4BJy+HvbtP0BlZQVKSnbsbKOoKIrruoyvq8svoqNjH0IKqo47jr0dHbS17WJcbS0TJozHGOjq6sLzPKqrqwDwPI/de/ZQU11N8tAhent7g1D2PaqqqvBcF9fzRvCQEiSiFh/t6AFdKNqWEngZDa7D3MbjeOiK6TTUlgLwyO+eoKJ8DE1N1/PUU6v4fOtWmq5fxLL7VnDLLTcx8/RGkocOsXjJr7j55htZ37yBV//xKtXV1bS3t3N6YyNNTYtYvXo1+w8cYPHddwHQ19/PsvuWs3zZMl5+5RXWr99AbW0NnV1d/PS6a2lpaaGnt/dIIJFzu6UojoTY0Zki346K4FvvkMPE6iJWLDyJa86aCIDjeoQsi0gkTEVlJR+vb2Z983qWLl1KZUU58+bNZdWqVcw8vZHnnnuemTMbsW2bF55/gRUr7qO2poa9ezu48667OfnkGZSWldHd3ZNfV8iyCIfD2LaN9jXzLp3LZZddmp/fuGkjsVjsGKKgIRKW2JZkZ2d/oHCANBCVcN2cCSy7fBoVxRF8oxEILCURAkpKSnjr7X9RHIvx4IMPUBKPo7XmioULaGnZwh//9CRtbW0sWbKYRx99jPPPP5famhocx6GmpprZs2fz3vsfUFdXh7LU0EZLmc8hO2zzn9ZWytaVIoBzzz0XKRXaN0dpfQIXEbWDTjgn2QLA83n4qqk8+pPTqCiO4Hg+SkjksMQ0WmPbFqlUivUfN+cTH+CKhQtYvXoNs2ZdQDQS5mBXF5UVlfi+H4iI75NIlOE4Tv5vcopmjM4nhKUs9u7dS3PzBlq2bCkQGeuoCSQg7WqE0VTGbfB1EHSW5N4Xt7GnO8Odc6cQD9v4urCFSaVSnH322Uw7cRqLFy+hqmosDQ0NAEyYMJ7x4+uor5+KMYbEmAQ7d+5EKYVSgTe2b9tOVVUViUSCrVs/zy/U83w8z6OkpJT+gX4uvHAW8y6dW7CRQhyrOZWCdMbD9TWTK4tAB02kRtCV8nnghW2ctfwdXt68GyUFUgjcLHQm43Bg337qp07hqisX8vCvV7J//4G8UqXTaXzPRwjBJRdfzAcf/pvXX3+DZDLJG2++xebNm5nz/dk0TDuRnTvbWN+8ge7ubp599jmqq6qJRMIMDKTYvn07ra1fsGHDBnbt2kXGcUgNDqLmXHvz0tdaDiBDaljhFBjX4+ezjqezz2Htxn3IsIU2IITEilrs73F45sM9bDuQ5NSJpVTGowhga+sXVFRUUF8/lYaGBrbv2EFvb5KGhmmkUoO0trYy84yZxONxxo4dS01tDWvWvMQ7696lvb2dphuamDx5EiUlJcTjcdasXsMHH36EMYam6xdRXBzjy/9+yc62tgBo4yY836e0pISQbSN++/oX5rZVn6KK7PwBTwqBHsywccUF7E0OMvehD1HxSH4+Z4MA3e8wpszinnlTuemi72FJGYBnG9ThxXOkAtvT00MikTji98YYUqlBYrGib34eEgLQgoMDLhPLi8BSHHZWQ5vgQKiKbbozgtue/pRz7n+Xd7d1ZosueL7O9nhHj2whRD75czBa64IuQghBLFaUF4dvBpRVh4P9GcYlolgRhdGHHcayz/a1QUhQJRE+2t7DeQ++z41/3kxnXworK/d6hIXkYHOLHQ4/fO5Y7dD/d2LNFtDO/gyl0TDlxYHSDV14GMK2JOc2k5VcGbUgFOKxtW00Ll3HqvfbkCIQDU9rRtrfkRYrvsZJUI7UbXf1uwBUl9rgGyQiyA0gquDqs8aC66OMyIZPsJtWiU170uG6xzdz8SPv0dLegyVl/hprNMeIx8ae/gwAdWOi5DLdAFJJeg+miUdsHrmmHr9vEEuIvAM93yCVRBXbrN3UxVnL13HPi5/Rn3GzR3LzHQNli2tPKvDQ8eVRyBauXN7ImM0f3tzFJdPH8tB1M3CTaZQcgtIGfN+gYiHSRrHi+VbOXP42q1v2oKTAmO8QKDgPSZKDQUsyaWxxNtDEsN5KoD3Brc98xh1zprD4ynq8/jTWMKi8aAiw4mE+35vmhys/omnVBnyjRwXq2CEnNMl0ADS5IgqWLFiArw1WLMRrm7t4/fMOVlzewJ3zp+L2ZT0lCjfI8w1WWCFsmzWbO3G1jxAGMxpAQ6k+9BFS0ZcOLgTHjYkiQjJ7jzZkE/wkue+lbWhjeHD+dO5aMAWvLxMIiCh8ZvY0TjwaRiK/5UvgLJDWGuO5+J4L2Y/vOhjfo7c/hTGamrIIMVtjMi7GH2bnOJiQ4b0t+/lbczvGwAPzT+KO+VPwB9MYz8vb4rloz8W4Lo7rjJooiP3JAdPeM4CSiuH/JjDGYFuS+uoSjDFs7Uji+YfVhKx4+L5PImYzqbI0e+cGW3b3ZPNHHOW5gvqqkuCd39BLh1+O5IHMV/YTpqB/+MoXZe/n5FcWQ0MugL/ucByHvr4+ysvLj5j7HxcA6/GrVQ3lAAAAAElFTkSuQmCC" style="height:32px;width:auto;" alt="杏栄ロゴ">
+    <span class="logo-name">杏 栄</span>
+  </div>
+  <span class="header-badge">担当者査定</span>
+</div>
+
+<!-- Hero -->
+<div class="hero-strip">
+  <h1>旭川の不動産、<span>担当者</span>が<br>丁寧に査定します</h1>
+  <p class="hero-sub">専門スタッフが無料でご案内</p>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>物件情報・連絡先を入力</span>
+    <span>入力完了で送信</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- 物件種別 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon">
+        <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1L14 5.5V13H10V9H5V13H1V5.5L7.5 1Z" stroke="#1a5fa8" stroke-width="1.3" stroke-linejoin="round"/></svg>
+      </div>
+      STEP 1　物件の種類
+    </div>
+    <div class="field">
+      <div class="field-label">物件種別 <span class="required">必須</span></div>
+      <div class="radio-group" id="propertyType">
+        <div class="radio-option">
+          <input type="radio" name="ptype" id="pt1" value="土地" checked onchange="updateProgress()">
+          <label class="radio-label" for="pt1">土地</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="ptype" id="pt2" value="中古住宅（戸建て）" onchange="showBuildingAge();updateProgress()">
+          <label class="radio-label" for="pt2">中古住宅<br>（戸建て）</label>
+        </div>
+        <div class="radio-option">
+          <input type="radio" name="ptype" id="pt3" value="中古マンション" onchange="showExclusive();updateProgress()">
+          <label class="radio-label" for="pt3">中古<br>マンション</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 面積 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon">
+        <svg viewBox="0 0 15 15" fill="none"><rect x="1" y="1" width="13" height="13" rx="1.5" stroke="#1a5fa8" stroke-width="1.3"/><path d="M4 11L11 4M4 4h7v7" stroke="#1a5fa8" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      STEP 2　面積を入力
+    </div>
+
+    <!-- 土地面積 -->
+    <div class="field" id="landSection">
+      <div class="field-label">土地面積 <span class="required">必須</span></div>
+      <div class="unit-toggle" style="margin-bottom:8px;">
+        <div class="unit-btn active" onclick="setUnit('land','tsubo',this)">坪</div>
+        <div class="unit-btn" onclick="setUnit('land','m2',this)">㎡</div>
+      </div>
+      <div class="number-wrap">
+        <button class="num-btn" onclick="adjust('landVal',-0.5)">−</button>
+        <input class="num-input" id="landVal" type="number" value="30" min="0.5" step="0.5" oninput="updateProgress()">
+        <span class="num-unit" id="landUnit">坪</span>
+        <button class="num-btn" onclick="adjust('landVal',0.5)">＋</button>
+      </div>
+    </div>
+
+    <!-- 建物面積（戸建のみ） -->
+    <div class="field" id="buildingSection" style="display:none;">
+      <div class="field-label">建物延床面積</div>
+      <div class="unit-toggle" style="margin-bottom:8px;">
+        <div class="unit-btn active" onclick="setUnit('bldg','tsubo',this)">坪</div>
+        <div class="unit-btn" onclick="setUnit('bldg','m2',this)">㎡</div>
+      </div>
+      <div class="number-wrap">
+        <button class="num-btn" onclick="adjust('bldgVal',-0.5)">−</button>
+        <input class="num-input" id="bldgVal" type="number" value="30" min="0.5" step="0.5">
+        <span class="num-unit" id="bldgUnit">坪</span>
+        <button class="num-btn" onclick="adjust('bldgVal',0.5)">＋</button>
+      </div>
+    </div>
+
+    <!-- 専有面積（マンションのみ） -->
+    <div class="field" id="exclusiveSection" style="display:none;">
+      <div class="field-label">専有面積 <span class="required">必須</span></div>
+      <div class="number-wrap">
+        <button class="num-btn" onclick="adjust('exclVal',-1)">−</button>
+        <input class="num-input" id="exclVal" type="number" value="50" min="1" step="1">
+        <span class="num-unit">㎡</span>
+        <button class="num-btn" onclick="adjust('exclVal',1)">＋</button>
+      </div>
+    </div>
+
+    <!-- 築年数（戸建・マンション） -->
+    <div class="field" id="ageSection" style="display:none;">
+      <div class="field-label">築年数</div>
+      <div class="number-wrap">
+        <button class="num-btn" onclick="adjust('ageVal',-1)">−</button>
+        <input class="num-input" id="ageVal" type="number" value="0" min="0" max="100" step="1">
+        <span class="num-unit">年</span>
+        <button class="num-btn" onclick="adjust('ageVal',1)">＋</button>
+      </div>
+      <p class="age-note">※ 0の場合は築年数不明として計算されます</p>
+    </div>
+  </div>
+
+  <!-- 住所 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon">
+        <svg viewBox="0 0 15 15" fill="none"><path d="M7.5 1C5.3 1 3.5 2.8 3.5 5c0 3.5 4 9 4 9s4-5.5 4-9c0-2.2-1.8-4-4-4z" stroke="#1a5fa8" stroke-width="1.3"/><circle cx="7.5" cy="5" r="1.5" stroke="#1a5fa8" stroke-width="1.3"/></svg>
+      </div>
+      STEP 3　物件の住所
+    </div>
+    <div class="field">
+      <div class="field-label">住所 <span class="required">必須</span></div>
+      <div class="addr-row">
+        <input class="text-input" id="address" type="text" placeholder="例：北海道旭川市神居一条18丁目" oninput="updateProgress()">
+        <button class="map-btn" title="地図で選択">
+          <svg viewBox="0 0 20 20" fill="none"><path d="M10 2C6.7 2 4 4.7 4 8c0 5 6 10 6 10s6-5 6-10c0-3.3-2.7-6-6-6z" stroke="white" stroke-width="1.5"/><circle cx="10" cy="8" r="2" stroke="white" stroke-width="1.5"/></svg>
+          地図
+        </button>
+      </div>
+      <div class="info-box" style="margin-top:8px;">
+        <span class="info-icon">💡</span>
+        <span>担当者が物件情報を確認のうえ、折り返しご連絡いたします</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 連絡先 -->
+  <div class="card">
+    <div class="card-title">
+      <div class="card-title-icon">
+        <svg viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="5" r="3" stroke="#1a5fa8" stroke-width="1.3"/><path d="M1.5 13.5c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#1a5fa8" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      STEP 4　ご連絡先
+    </div>
+    <div class="field">
+      <div class="field-label">お名前 <span class="required">必須</span></div>
+      <input class="text-input" id="contactName" type="text" placeholder="例：山田 太郎" oninput="updateProgress()">
+    </div>
+    <div class="field">
+      <div class="field-label">電話番号 <span class="required">必須</span></div>
+      <input class="text-input" id="contactPhone" type="tel" placeholder="例：090-1234-5678" oninput="updateProgress()">
+    </div>
+    <div class="field">
+      <div class="field-label">メールアドレス <span class="required">必須</span></div>
+      <input class="text-input" id="contactEmail" type="email" placeholder="例：example@email.com" oninput="updateProgress()">
+    </div>
+    <div class="field">
+      <div class="field-label">ご要望・備考</div>
+      <input class="text-input" id="contactNote" type="text" placeholder="例：売却時期、内見希望、ご質問など" oninput="updateProgress()">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label class="check-wrap">
+        <input type="checkbox" id="privacyCheck" onchange="updateProgress()">
+        <span class="check-text">
+          <a href="https://www.kyouei-asahikawa.com/privacy.html" target="_blank">『個人情報の取り扱い等について』</a>をお読みいただき、ご同意のうえお申し込みください。
+        </span>
+      </label>
+    </div>
+  </div>
+
+</div>
+
+<!-- Submit -->
+<div class="submit-section">
+  <button class="submit-btn" onclick="submitForm()">
+    <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="white" stroke-width="1.5"/><path d="M7 10l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    担当者査定を申し込む（無料）
+  </button>
+  <p class="submit-note">担当者より折り返しご連絡いたします</p>
+</div>
+
+<div class="trust-row">
+  <div class="trust-item">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M7 1L1 4v4c0 3 2.5 5.5 6 6 3.5-.5 6-3 6-6V4L7 1z" stroke="#1a5fa8" stroke-width="1.2"/><path d="M4.5 7l2 2 3-3" stroke="#1a5fa8" stroke-width="1.2" stroke-linecap="round"/></svg>
+    安心・安全
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#1a5fa8" stroke-width="1.2"/><path d="M7 4v3l2 2" stroke="#1a5fa8" stroke-width="1.2" stroke-linecap="round"/></svg>
+    専門スタッフ
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="9" rx="1.5" stroke="#1a5fa8" stroke-width="1.2"/><path d="M1 6h12" stroke="#1a5fa8" stroke-width="1.2"/></svg>
+    完全無料
+  </div>
+  <div class="trust-item">
+    <svg viewBox="0 0 14 14" fill="none"><path d="M7 1L1 4v4c0 3 2.5 5.5 6 6 3.5-.5 6-3 6-6V4L7 1z" stroke="#1a5fa8" stroke-width="1.2"/></svg>
+    折り返し連絡
+  </div>
+</div>
+
+<script>
+const M2_PER_TSUBO = 3.30578;
+let landUnitMode = 'tsubo';
+let bldgUnitMode = 'tsubo';
+
+function setUnit(type, mode, el) {
+  const btns = el.parentElement.querySelectorAll('.unit-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  if(type === 'land') {
+    const val = parseFloat(document.getElementById('landVal').value) || 0;
+    if(landUnitMode !== mode) {
+      if(mode === 'm2') document.getElementById('landVal').value = (val * M2_PER_TSUBO).toFixed(1);
+      else document.getElementById('landVal').value = (val / M2_PER_TSUBO).toFixed(1);
+      document.getElementById('landUnit').textContent = mode === 'm2' ? '㎡' : '坪';
+      landUnitMode = mode;
+    }
+  } else {
+    const val = parseFloat(document.getElementById('bldgVal').value) || 0;
+    if(bldgUnitMode !== mode) {
+      if(mode === 'm2') document.getElementById('bldgVal').value = (val * M2_PER_TSUBO).toFixed(1);
+      else document.getElementById('bldgVal').value = (val / M2_PER_TSUBO).toFixed(1);
+      document.getElementById('bldgUnit').textContent = mode === 'm2' ? '㎡' : '坪';
+      bldgUnitMode = mode;
+    }
+  }
+}
+
+function adjust(id, delta) {
+  const el = document.getElementById(id);
+  const val = parseFloat(el.value) || 0;
+  el.value = Math.max(0, val + delta).toFixed(Math.abs(delta) < 1 ? 1 : 0);
+  updateProgress();
+}
+
+function showBuildingAge() {
+  document.getElementById('buildingSection').style.display = '';
+  document.getElementById('ageSection').style.display = '';
+  document.getElementById('exclusiveSection').style.display = 'none';
+  document.getElementById('landSection').style.display = '';
+}
+
+function showExclusive() {
+  document.getElementById('exclusiveSection').style.display = '';
+  document.getElementById('ageSection').style.display = '';
+  document.getElementById('buildingSection').style.display = 'none';
+  document.getElementById('landSection').style.display = 'none';
+}
+
+function updateProgress() {
+  const addr = document.getElementById('address').value.trim();
+  const name = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const check = document.getElementById('privacyCheck').checked;
+  let filled = 0;
+  if(addr) filled++;
+  if(name) filled++;
+  if(phone) filled++;
+  if(email) filled++;
+  if(check) filled++;
+  const pct = 20 + (filled / 5) * 80;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function submitForm() {
+  const name = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const addr = document.getElementById('address').value.trim();
+  const check = document.getElementById('privacyCheck').checked;
+
+  if(!name){alert('お名前を入力してください。');return;}
+  if(!phone){alert('電話番号を入力してください。');return;}
+  if(!email){alert('メールアドレスを入力してください。');return;}
+  if(!addr){alert('住所を入力してください。');return;}
+  if(!check){alert('個人情報の取り扱いにご同意ください。');return;}
+
+  // Streamlitアプリに遷移（パラメータ付き）
+  const ptype = document.querySelector('input[name="ptype"]:checked').value;
+  const landVal = parseFloat(document.getElementById('landVal').value)||0;
+  const landM2 = landUnitMode==='tsubo' ? landVal*M2_PER_TSUBO : landVal;
+  const bldgVal = parseFloat(document.getElementById('bldgVal').value)||0;
+  const bldgM2 = bldgUnitMode==='tsubo' ? bldgVal*M2_PER_TSUBO : bldgVal;
+  const exclM2 = parseFloat(document.getElementById('exclVal').value)||0;
+  const age = parseInt(document.getElementById('ageVal').value)||0;
+
+  const note = document.getElementById('contactNote').value.trim();
+  const params = new URLSearchParams({
+    staff: '1',
+    ptype, address: addr,
+    land_m2: landM2.toFixed(1),
+    bldg_m2: bldgM2.toFixed(1),
+    excl_m2: exclM2.toFixed(1),
+    age, name, phone, email
+  });
+  if(note) params.set('note', note);
+  window.location.href = 'https://simple-aisatei.onrender.com/?' + params.toString();
+}
+
+// 種別ラジオ変更で表示切替
+document.querySelectorAll('input[name="ptype"]').forEach(r => {
+  r.addEventListener('change', function(){
+    const v = this.value;
+    if(v==='土地'){
+      document.getElementById('buildingSection').style.display='none';
+      document.getElementById('ageSection').style.display='none';
+      document.getElementById('exclusiveSection').style.display='none';
+      document.getElementById('landSection').style.display='';
+    }
+  });
+});
+</script>
+</body>
+</html>
